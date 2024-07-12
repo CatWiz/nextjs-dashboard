@@ -5,9 +5,13 @@ import LatestInvoices from "../ui/dashboard/latest-invoices";
 import { Card } from "../ui/dashboard/cards";
 
 export default async function Page() {
-    const revenue = await fetchRevenue();
-    const latestInvoices = await fetchLatestInvoices();
-    const { totalPaidInvoices, totalPendingInvoices, numberOfCustomers, numberOfInvoices } = await fetchCardData();
+    const [revenue, latestInvoices, cardData] = await Promise.all([
+        fetchRevenue(),
+        fetchLatestInvoices(),
+        fetchCardData()
+    ]);
+
+    const { totalPaidInvoices, totalPendingInvoices, numberOfCustomers, numberOfInvoices } = cardData;
 
     return (
         <main>
